@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<package name="indexBean" namespace="/" extends="default">
+
+		<!--后台登录页面 -->
+		<action name="*Login" class="userAction" method="{1}Login">
+			<result name="index" type="redirectAction">index</result>
+		</action>
+
+		<action name="login" class="userAction" method="forwardLogin">
+			<result name="success">/WEB-INF/admin/adminlogin.jsp</result>
+		</action>
+		
+		<!-- 前往首页 -->
+		<action name="index" class="indexAction" method="index">
+			<result name="success">/WEB-INF/admin/index.jsp </result>
+			<interceptor-ref name="myLoginStack"></interceptor-ref>
+		</action>
+		
+		<action name="welcome" class="indexAction" method="welcome">
+			<result name="success">/WEB-INF/admin/welcome.jsp</result>
+			<interceptor-ref name="myLoginStack"></interceptor-ref>
+		</action>
+
+		<!-- 目录的获取 -->
+		<action name="categoty" class="categoryAction" method="category">
+			<result name="category" type="json">
+				<param name="categories">categories</param>
+			</result>
+			<interceptor-ref name="myLoginStack"></interceptor-ref>
+		</action>
+
+	</package>
+</struts>    

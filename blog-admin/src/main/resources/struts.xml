@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 配置为开发模式 -->
+	<constant name="struts.devMode" value="true" />
+	<!-- 配置struts.xml自动加载 -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<constant name="struts.multipart.maxSize" value="1073741824" />
+
+	<package name="default" namespace="/" abstract="true" extends="struts-default,json-default">
+
+		<interceptors>
+			<!-- 拦截器加载 -->
+			<interceptor name="login" class="com.interceptor.LoginInterceptor" />
+			<!-- 自定义拦截器堆栈 -->
+			<interceptor-stack name="myLoginStack">
+				<interceptor-ref name="login" />
+				<!-- 引用默认的拦截器堆栈 -->
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<!-- 配置404页面 -->
+		<default-action-ref name="404"></default-action-ref>
+
+		<!-- 配置全局转发页面 -->
+		<global-results>
+			<!-- <result name="exception">/WEB-INF/admin/error.jsp</result> -->
+			<result name="login">/WEB-INF/admin/adminlogin.jsp </result>
+		</global-results>
+
+		<!--配置异常页面 -->
+		<global-exception-mappings>
+			<exception-mapping result="exception" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+
+		<action name="404">
+			<result>/WEB-INF/admin/404.jsp</result>
+		</action>
+
+	</package>
+	<include file="indexBean.xml"></include>
+	<include file="articleBean.xml"></include>
+	<include file="videoBean.xml"></include>
+	<include file="fileBean.xml"></include>
+	<include file="imageBean.xml"></include>
+</struts>    

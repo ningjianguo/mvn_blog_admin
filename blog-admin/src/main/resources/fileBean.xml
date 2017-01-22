@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="fileBean" namespace="/" extends="default">
+		<!-- 博客视频 -->
+		<action name="*File" class="fileAction" method="{1}File">
+			<result name="upload">/WEB-INF/admin/uploadFile.jsp</result>
+			<result name="manage">/WEB-INF/admin/manageFile.jsp</result>
+			<!-- 配置文件上传拦截器 -->
+			<interceptor-ref name="fileUpload">
+				<!-- 文件过滤 -->
+				<param name="allowedExtensions">zip,rar</param>
+				<param name="maximumSize">1073741824</param><!-- 1024b*1024b*1024b=1G -->
+			</interceptor-ref>
+			<!-- 引用默认的拦截器堆栈 
+			<interceptor-ref name="defaultStack" />-->
+			<interceptor-ref name="myLoginStack"></interceptor-ref>
+		</action>
+	</package>
+</struts>    

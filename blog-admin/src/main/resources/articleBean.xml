@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<package name="articleBean" namespace="/" extends="default">
+
+		<!-- 博客文章 -->
+		<action name="*Article" class="articleAction" method="{1}Article">
+			<result name="manageArticle">/WEB-INF/admin/manageArticle.jsp</result>
+			<result name="{1}">/WEB-INF/admin/{1}Article.jsp</result>
+			<interceptor-ref name="myLoginStack"></interceptor-ref>
+		</action>
+
+	</package>
+
+</struts>    

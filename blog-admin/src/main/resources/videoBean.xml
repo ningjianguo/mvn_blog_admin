@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="videoBean" namespace="/" extends="default">
+		<!-- 博客视频 -->
+		<action name="*Video" class="videoAction" method="{1}Video">
+			<result name="upload">/WEB-INF/admin/uploadVideo.jsp</result>
+			<result name="manage">/WEB-INF/admin/manageVideo.jsp</result>
+			<result name="display">/WEB-INF/admin/displayVideo.jsp</result>
+			<!-- 配置文件上传拦截器 -->
+			<interceptor-ref name="fileUpload">
+				<!-- 文件过滤 -->
+				<param name="allowedExtensions">mp4</param>
+				<param name="maximumSize">1073741824</param><!-- 1024b*1024b*1024b=1G -->
+			</interceptor-ref>
+			<!-- 引用默认的拦截器堆栈 
+			<interceptor-ref name="defaultStack" />-->
+			<interceptor-ref name="myLoginStack"></interceptor-ref>
+		</action>
+		<action name="videoCategory" class="videoAction" method="videoCategory">
+			<result name="success" type="json">
+				<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<!-- 默认将会序列所有有返回值的getter方法的值，而无论该方法是否有对应属性 -->
+				<param name="videoCategories">videoCategories</param>
+			</result>
+			<interceptor-ref name="myLoginStack"></interceptor-ref>
+		</action>
+
+		<action name="getVideoName" class="videoAction" method="jsonVideo">
+			<result name="success" type="json">
+				<param name="videoName">videoName</param>
+			</result>
+			<interceptor-ref name="myLoginStack"></interceptor-ref>
+		</action>
+	</package>
+</struts>    

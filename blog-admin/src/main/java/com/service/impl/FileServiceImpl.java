@@ -48,7 +48,7 @@ public class FileServiceImpl extends BaseDaoImpl<File> implements
 		f.setFileZipName(f.getFileName() + FILE_SPLIT_SIGN + (newFileId + 1)+"."+fileContentType);
 		try {
 			save(f);
-			if (newFileId == 0) {
+			if (newFileId == 0 || getMaxFileId() != newFileId + 1) {
 				getSession()
 						.createSQLQuery(
 								"update file set file_zip_name=:filename where file_zip_name=:name")

@@ -60,7 +60,7 @@ public class VideoServiceImpl extends BaseDaoImpl<Video> implements
 		v.setVideoFileName(v.getVideoName() + FILE_SPLIT_SIGN + (newVideoId + 1));
 		try {
 			save(v);
-			if (newVideoId == 0) {
+			if (newVideoId == 0 || getMaxVideoId() != newVideoId + 1) {
 				getSession()
 						.createSQLQuery(
 								"update video set video_file_name=:filename where video_file_name=:name")

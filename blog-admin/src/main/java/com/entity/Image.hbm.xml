@@ -19,7 +19,7 @@
         <property name="imageFileName" type="java.lang.String">
             <column name="image_file_name" length="100"  />
         </property>
-        <property name="imageUploadTime" type="java.util.Date">
+        <property name="imageUploadTime" type="date">
             <column name="image_upload_time" length="0"  />
         </property>
     </class>

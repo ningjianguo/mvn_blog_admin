@@ -30,7 +30,7 @@ import net.sf.json.JSONObject;
  @project:ningjianguo
  @author:Techape
  @date:2017年1月16日 下午3:36:31
- @email:1195726908@qq.comzo
+ @email:1195726908@qq.com
  @version:v1.0
  @description:照片业务层实现类
  */

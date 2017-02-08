@@ -29,10 +29,10 @@ public interface IVideoService {
 	
 	/**
 	 * 视频上传
-	 * @param Video v 对象
+	 * @param Video v 对象  String videoContentType 视频类型
 	 * @return true(成功)、false(失败)
 	 */
-	public Boolean uploadVideo(Video v);
+	public Boolean uploadVideo(Video v,String videoContentType);
 	
 	/**
 	 * 获取视频条目
@@ -42,17 +42,15 @@ public interface IVideoService {
 	public String getCategories(int p_categoryId);
 	
 	/**
-	 * 获得最近上传的一部视频
-	 */
-	public int getMaxVideoId();
-	
-	/**
 	 * 获得视频名称
 	 * @param videoId 视频ID
 	 * @return videoName
 	 */
 	public String getVideoName(int videoId);
-	
+	/**
+	 * 获得最近上传的一部视频
+	 */
+	public int getMaxVideoId();
 	/**
 	 * 获得视频所有信息
 	 * @return Json格式视频信息
@@ -74,5 +72,15 @@ public interface IVideoService {
 	 * 删除视频
 	 */
 	public String deleteVideo(Video video);
+	
+	/**
+	 * 修改视频标签
+	 */
+	public String updateVideoTag(Video video);
+	
+	/**
+	 * 删除视频标签
+	 */
+	public String deleteVideoTag(Video video);
 }
 	

@@ -60,20 +60,38 @@ public class VideoAction extends BaseAction<Video> {
 	 * 视频上传
 	 */
 	public String uploadVideo() {
-		if (videoServiceImpl.uploadVideo(getModel())) {
+		if (videoServiceImpl.uploadVideo(getModel(),videoContentType(videoContentType))) {
 			try {
 				FileUtils.copyFile(video,
 						new File(FilePathUtil.getValue("uploadFilePath") + "/"
 								+ getModel().getVideoName() + "_blog_"
-								+ videoServiceImpl.getMaxVideoId() + "."
-								+ videoContentType.split("/")[1]));
+								+ videoServiceImpl.getMaxVideoId()+videoContentType(videoContentType)));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		return displayVideo();
 	}
-
+	
+	/**
+	 * 修改视频标签
+	 */
+	public String updateVideoTag(){
+		printJsonStringToBrowser(videoServiceImpl.updateVideoTag(getModel()));
+		return null;
+	}
+	private String videoContentType(String type){
+		String contentType = videoContentType.split("/")[1];
+		switch (contentType) {
+		case "mp4":
+			return ".mp4";
+		case "octet-stream":
+			return ".flv";
+		case "x-msvideo":
+			return ".avi";
+		}
+		return null;
+	}
 	/**
 	 * 通过父目录获取子目录
 	 */
@@ -133,7 +151,13 @@ public class VideoAction extends BaseAction<Video> {
 		printJsonStringToBrowser(videoServiceImpl.deleteVideo(getModel()));
 		return null;
 	}
-
+	/**
+	 * 删除视频标签
+	 */
+	public String deleteVideoTag(){
+		printJsonStringToBrowser(videoServiceImpl.deleteVideoTag(getModel()));
+		return null;
+	}
 	/**
 	 * @return the video
 	 */

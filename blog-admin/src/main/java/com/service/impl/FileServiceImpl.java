@@ -69,7 +69,7 @@ public class FileServiceImpl extends BaseDaoImpl<File> implements
 
 	@Override
 	public String getFileAllInfo(int pageNo, int pageSize) {
-		List<File> files = getPaging(pageNo, pageSize, null);
+		List<File> files = getPaging(pageNo, pageSize, "order by fileId desc");
 		Map<String, Object> maps = null;
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		JSONObject jobj = null;

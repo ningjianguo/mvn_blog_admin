@@ -1,5 +1,8 @@
 package com.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * User entity. @author MyEclipse Persistence Tools
  */
@@ -12,6 +15,7 @@ public class User implements java.io.Serializable {
 	private String userName;
 	private String userPassword;
 	private String userRealityName;
+	private Set mails = new HashSet(0);
 
 	// Constructors
 
@@ -19,11 +23,19 @@ public class User implements java.io.Serializable {
 	public User() {
 	}
 
-	/** full constructor */
-	public User(String userName, String userPassword ,String userRealityName) {
+	/** minimal constructor */
+	public User(String userName, String userPassword, String userRealityName) {
 		this.userName = userName;
 		this.userPassword = userPassword;
 		this.userRealityName = userRealityName;
+	}
+
+	/** full constructor */
+	public User(String userName, String userPassword, String userRealityName, Set mails) {
+		this.userName = userName;
+		this.userPassword = userPassword;
+		this.userRealityName = userRealityName;
+		this.mails = mails;
 	}
 
 	// Property accessors
@@ -52,18 +64,20 @@ public class User implements java.io.Serializable {
 		this.userPassword = userPassword;
 	}
 
-	/**
-	 * @return the userRealityName
-	 */
 	public String getUserRealityName() {
-		return userRealityName;
+		return this.userRealityName;
 	}
 
-	/**
-	 * @param userRealityName the userRealityName to set
-	 */
 	public void setUserRealityName(String userRealityName) {
 		this.userRealityName = userRealityName;
 	}
-	
+
+	public Set getMails() {
+		return this.mails;
+	}
+
+	public void setMails(Set mails) {
+		this.mails = mails;
+	}
+
 }

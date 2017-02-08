@@ -11,10 +11,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
 import com.comm.dao.BaseDaoImpl;
@@ -27,6 +25,9 @@ import com.opensymphony.xwork2.ActionContext;
 import com.service.IVideoService;
 import com.util.FilePathUtil;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /**
  * @project:ningjianguo
  * @author:Techape
@@ -36,8 +37,7 @@ import com.util.FilePathUtil;
  * @description:视频业务层实现类
  */
 @Service
-public class VideoServiceImpl extends BaseDaoImpl<Video> implements
-		IVideoService {
+public class VideoServiceImpl extends BaseDaoImpl<Video> implements IVideoService {
 
 	@Resource
 	private IVideo videoDaoImpl;
@@ -49,7 +49,7 @@ public class VideoServiceImpl extends BaseDaoImpl<Video> implements
 	}
 
 	@Override
-	public Boolean uploadVideo(Video v) {
+	public Boolean uploadVideo(Video v, String videoContentType) {
 		int newVideoId = getMaxVideoId();
 		Map mapSession = ActionContext.getContext().getSession();
 		User admin = (User) mapSession.get("admin");
@@ -57,19 +57,27 @@ public class VideoServiceImpl extends BaseDaoImpl<Video> implements
 		v.setVideoStatu(1);
 		v.setVideoUploadEditer(admin.getUserName());
 		v.setVideoUploadTime(new Date());
-		v.setVideoFileName(v.getVideoName() + FILE_SPLIT_SIGN + (newVideoId + 1));
+		v.setVideoFileName(v.getVideoName() + FILE_SPLIT_SIGN + (newVideoId + 1) + videoContentType);
+		String videoTagName = v.getVideoTag().getVideoTagName();
+		Session session = getSession();
 		try {
-			save(v);
+			if (videoTagName != null) {
+				if (!getAllVideoTag().contains(videoTagName)) {
+					VideoTag videoTag = new VideoTag();
+					videoTag.setVideoTagName(videoTagName);
+					session.save(videoTag);
+					session.getTransaction().commit();
+					v.getVideoTag().setVideoTagId(getMaxVideoTagId());
+				}
+			}
+			session.save(v);
 			if (newVideoId == 0 || getMaxVideoId() != newVideoId + 1) {
-				getSession()
-						.createSQLQuery(
-								"update video set video_file_name=:filename where video_file_name=:name")
-						.setString("filename",
-								v.getVideoName() + FILE_SPLIT_SIGN + getMaxVideoId())
-						.setString("name",
-								v.getVideoName() + FILE_SPLIT_SIGN + (newVideoId + 1))
-						.executeUpdate();
-				
+				Video video = (Video) session.createQuery("from Video where videoId=?").setInteger(0, getMaxVideoId())
+						.uniqueResult();
+				video.setVideoFileName(video.getVideoName() + FILE_SPLIT_SIGN + getMaxVideoId() + videoContentType);
+				session.clear();
+				session.update(video);
+				session.flush();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,9 +88,9 @@ public class VideoServiceImpl extends BaseDaoImpl<Video> implements
 
 	@Override
 	public String getCategories(int p_categoryId) {
-		  List<Video> categories = videoDaoImpl.getCategories(p_categoryId);
-		  List<Video> categories2 = new ArrayList<Video>();
-		  for (Video video : categories) {
+		List<Video> categories = videoDaoImpl.getCategories(p_categoryId);
+		List<Video> categories2 = new ArrayList<Video>();
+		for (Video video : categories) {
 			Video v = new Video();
 			v.setVideoFileName(video.getVideoFileName());
 			v.setVideoName(video.getVideoName());
@@ -95,10 +103,24 @@ public class VideoServiceImpl extends BaseDaoImpl<Video> implements
 	@Override
 	public int getMaxVideoId() {
 		try {
-			Query query = getSession().createSQLQuery(
-					"select ifnull(max(video_id),0) from video");
+			Query query = getSession().createSQLQuery("select ifnull(max(video_id),0) from video");
 			BigInteger videoId = (BigInteger) query.list().get(0);
 			return videoId.intValue();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	/**
+	 * 获得最近新建的文件夹ID
+	 */
+	@SuppressWarnings("unused")
+	private int getMaxVideoTagId() {
+		try {
+			Query query = getSession().createSQLQuery("select ifnull(max(video_tag_id),0) from video_tag");
+			BigInteger videoTagId = (BigInteger) query.list().get(0);
+			return videoTagId.intValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -110,8 +132,7 @@ public class VideoServiceImpl extends BaseDaoImpl<Video> implements
 	public String getVideoName(int videoId) {
 		try {
 			Query query = getSession()
-					.createSQLQuery(
-							"select video_id,video_name,video_file_name from video where video_id=?");
+					.createSQLQuery("select video_id,video_name,video_file_name from video where video_id=?");
 			query.setInteger(0, videoId);
 			List<Video> videos = query.list();
 			return JSONArray.fromObject(videos).toString();
@@ -123,7 +144,7 @@ public class VideoServiceImpl extends BaseDaoImpl<Video> implements
 
 	@Override
 	public String getVideoAllInfo(int pageNo, int pageSize) {
-		List<Video> videos = getPaging(pageNo, pageSize, null);
+		List<Video> videos = getPaging(pageNo, pageSize, "order by videoId desc");
 		Map<String, Object> maps = null;
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		JSONObject jobj = null;
@@ -133,13 +154,11 @@ public class VideoServiceImpl extends BaseDaoImpl<Video> implements
 				maps.put("videoId", video.getVideoId());
 				maps.put("videoName", video.getVideoName());
 				maps.put("videoUploadEditer", video.getVideoUploadEditer());
-				maps.put("videoUploadTime", new SimpleDateFormat("yyyy-MM-dd")
-						.format(video.getVideoUploadTime()));
+				maps.put("videoUploadTime", new SimpleDateFormat("yyyy-MM-dd").format(video.getVideoUploadTime()));
 				maps.put("videoDownloadCount", video.getVideoDownloadCount());
-				maps.put("videoTag.videoTagName", video.getVideoTag()
-						.getVideoTagName());
+				maps.put("videoTag.videoTagName", video.getVideoTag().getVideoTagName());
 				maps.put("videoStatu", releaseStatu(video.getVideoStatu()));
-				maps.put("videoFileName", video.getVideoFileName() + ".mp4");
+				maps.put("videoFileName", video.getVideoFileName());
 				list.add(maps);
 			}
 			jobj = new JSONObject();
@@ -195,19 +214,61 @@ public class VideoServiceImpl extends BaseDaoImpl<Video> implements
 	@Override
 	public String deleteVideo(Video video) {
 		jobj = new JSONObject();
-		//删除硬盘中的视频文件
+		// 删除硬盘中的视频文件
 		try {
 			Query query = getSession().createQuery("from Video where videoId=:id").setInteger("id", video.getVideoId());
 			Video deleteVideo = (Video) query.uniqueResult();
-			File desFile = new File(FilePathUtil.getValue("uploadFilePath") + "/"+deleteVideo.getVideoFileName()+".mp4");
-			if(desFile.exists()){
-				if(desFile.delete()){
-					jobj.accumulate("success",videoDaoImpl.deleteVideo(video.getVideoId()));
+			File desFile = new File(FilePathUtil.getValue("uploadFilePath") + "/" + deleteVideo.getVideoFileName());
+			if (desFile.exists()) {
+				if (desFile.delete()) {
+					jobj.accumulate("success", videoDaoImpl.deleteVideo(video.getVideoId()));
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return jobj.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String updateVideoTag(Video video) {
+		jobj = new JSONObject();
+		Session session = getSession();
+		boolean isTagNameExist = false;
+		List<VideoTag> videoTags = session.createQuery("from VideoTag").list();
+		for (VideoTag videoTag : videoTags) {
+			if (videoTag.getVideoTagName().equals(video.getVideoTag().getVideoTagName())) {
+				isTagNameExist = true;// 标签名已存在,不允许更新
+				break;
+			}
+		}
+		if (isTagNameExist) {
+			return jobj.accumulate("info", "fail").toString();
+		} else {
+			VideoTag videoTag = (VideoTag) session.createQuery("from VideoTag where videoTagId=?")
+					.setInteger(0, video.getVideoTag().getVideoTagId()).uniqueResult();
+			videoTag.setVideoTagName(video.getVideoTag().getVideoTagName());
+			session.clear();
+			session.update(videoTag);
+			session.flush();
+			return jobj.accumulate("info", "success").toString();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String deleteVideoTag(Video video) {
+		jobj = new JSONObject();
+		List<Video> videos = getSession().createQuery("from Video where videoTag.videoTagId=?")
+				.setInteger(0, video.getVideoTag().getVideoTagId()).list();
+		if (videos.size() != 0) {
+			return jobj.accumulate("info", "fail").toString();//此标签已被视频标注不允许删除
+		}else{
+			VideoTag videoTag = new VideoTag();
+			videoTag.setVideoTagId(video.getVideoTag().getVideoTagId());
+			getSession().delete(videoTag);
+			return jobj.accumulate("info", "success").toString();
+		}
 	}
 }

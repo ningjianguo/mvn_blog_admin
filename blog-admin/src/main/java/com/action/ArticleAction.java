@@ -24,20 +24,16 @@ public class ArticleAction extends BaseAction<Article>{
 	/**
 	 * 跳转到博文编辑页面
 	 */
-	public String editerArticle(){
+	public String uploadArticle(){
 		request.setAttribute("tags", articleServiceImpl.getAllArticleTag());
-		return "editer";
+		return "upload";
 	}
 	/**
 	 * 保存博文
 	 */
 	public String saveArticle(){
-		if(articleServiceImpl.saveArticle(getModel())){
-			request.setAttribute("saveinfo", "发表成功！");
-		}else{
-			request.setAttribute("saveinfo", "发表失败！");
-		}
-		return "save";
+		articleServiceImpl.saveArticle(getModel());
+		return forwardManageArticle();
 	}
 	
 	/**

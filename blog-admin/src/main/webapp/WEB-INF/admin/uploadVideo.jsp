@@ -17,6 +17,7 @@
 	href="${ctx}/javascript/frame/bootstrap/css/fileinput.min.css">
 <script type="text/javascript"
 	src="${ctx}/javascript/frame/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="${ctx}/javascript/common.js"></script>
 </head>
 <script type="text/javascript">
 	$(function() {
@@ -29,13 +30,13 @@
 		control.fileinput({
 			language : 'zh', //设置语言
 			//uploadUrl : uploadUrl, //上传的地址
-			allowedFileExtensions : [ 'mp4' ],//接收的文件后缀
+			allowedFileExtensions : [ 'mp4'], //接收的文件后缀
 			showUpload : false, //是否显示上传按钮
-			showCaption : false,//是否显示标题
+			showCaption : false, //是否显示标题
 			browseClass : "btn btn-primary", //按钮样式             
 			previewFileIcon : "<i class='glyphicon glyphicon-king'></i>",
 			dropZoneEnabled : false,
-			maxFileSize : 1048576,//单位为kb，如果为0表示不限制文件大小
+			maxFileSize : 1048576, //单位为kb，如果为0表示不限制文件大小
 		//enctype: 'multipart/form-data',
 		});
 	}
@@ -80,16 +81,21 @@
 					<c:if test="${status.count==1}">
 						<label class="checkbox-inline"> <input type="radio"
 							name="videoTag.videoTagId" id="optionsRadios3"
-							value="${tag.videoTagId}" checked>${tag.videoTagName}
+							value="${tag.videoTagId}" class="tagname_other" checked>${tag.videoTagName}
 						</label>
 					</c:if>
 					<c:if test="${status.count!=1}">
 						<label class="checkbox-inline"> <input type="radio"
 							name="videoTag.videoTagId" id="optionsRadios3"
-							value="${tag.videoTagId}">${tag.videoTagName}
+							class="tagname_other" value="${tag.videoTagId}">${tag.videoTagName}
 						</label>
 					</c:if>
 				</c:forEach>
+				<label class="checkbox-inline"><input
+					name="videoTag.videoTagName" type="radio" value=""
+					class="tagname_other" id="tagname_other" />其它</label><input type="hidden"
+					value="" id="othertag" placeholder="填写标签名" size="10"
+					style="height: 20px; margin-left: 3px;" />
 			</div>
 		</div>
 		<div class="form-group">

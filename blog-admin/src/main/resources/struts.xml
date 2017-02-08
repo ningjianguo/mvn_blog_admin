@@ -25,7 +25,7 @@
 
 		<!-- 配置全局转发页面 -->
 		<global-results>
-			<!-- <result name="exception">/WEB-INF/admin/error.jsp</result> -->
+			<result name="exception">/WEB-INF/admin/error.jsp</result>
 			<result name="login">/WEB-INF/admin/adminlogin.jsp </result>
 		</global-results>
 

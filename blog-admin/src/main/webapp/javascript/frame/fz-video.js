@@ -105,7 +105,7 @@ function createVideo(dn,obj){
 			}
 			fzPools.work.style.width 	= videoCurrentTime() + "%";
 			fzPools.work2.style.width 	= videoCurrentTime() + "%";
-			fzPools.currentTm.innerHTML = timeConversio放事件
+			fzPools.currentTm.innerHTML = timeConversion(parseInt(videoAllTime()));
 		fzPools.VIDEO_DOM.onplaying = function(){
 			opn(parseInt(fzPools.VIDEO_DOM.currentTime));
 			fzPools.allTime.innerHTML 	= timeConversion(parseInt(videoAllTime()));

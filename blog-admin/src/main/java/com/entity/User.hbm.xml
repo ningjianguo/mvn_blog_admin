@@ -6,18 +6,24 @@
 -->
 <hibernate-mapping>
     <class name="com.entity.User" table="user" catalog="blog">
-        <id name="userId" type="integer">
+        <id name="userId" type="java.lang.Integer">
             <column name="user_id" />
             <generator class="native" />
         </id>
-        <property name="userName" type="string">
-            <column name="user_name" length="50"  />
+        <property name="userName" type="java.lang.String">
+            <column name="user_name" length="50" not-null="true" />
         </property>
-        <property name="userPassword" type="string">
-            <column name="user_password" length="50"  />
+        <property name="userPassword" type="java.lang.String">
+            <column name="user_password" length="100" not-null="true" />
         </property>
-        <property name="userRealityName" type="string">
-        	<column name="user_reality_name" length="50"></column>
+        <property name="userRealityName" type="java.lang.String">
+            <column name="user_reality_name" length="50" not-null="true" />
         </property>
+        <set name="mails" inverse="true">
+            <key>
+                <column name="user_id" />
+            </key>
+            <one-to-many class="com.entity.Mail" />
+        </set>
     </class>
 </hibernate-mapping>

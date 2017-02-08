@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -14,7 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	@date:2017年1月22日 下午10:21:14
 	@email:1195726908@qq.com
 	@version:v1.0
-	@description:
+	@description:测试增删改查
 */
 public class CrudTest {
 	private Session session;

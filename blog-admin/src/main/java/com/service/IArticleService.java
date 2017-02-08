@@ -53,7 +53,7 @@ public interface IArticleService {
 	 * 保存博文
 	 * @return true(保存成功)、false(保存失败)
 	 */
-	public Boolean saveArticle(Article article);
+	public void saveArticle(Article article);
 	
 	/**
 	 * @param pageNo	第几页

@@ -88,7 +88,7 @@
 					autoplay : true
 				//是否自动播放
 				});
-				fz_video.setUrl(getRootPath() + "/file/" + videoFileName +".mp4");
+				fz_video.setUrl(getRootPath() + "/file/" + videoFileName);
 				$("#videoTitle").text(videoName);
 			}
 		})

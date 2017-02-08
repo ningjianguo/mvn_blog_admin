@@ -7,6 +7,9 @@
 .icon-edit{
 	background:url('icons/pencil.png') no-repeat center center;
 }
+.icon-video{
+	background:url('icons/video.png') no-repeat center center;
+}
 .icon-add_{
 	background:url('icons/add.png') no-repeat center center;
 }

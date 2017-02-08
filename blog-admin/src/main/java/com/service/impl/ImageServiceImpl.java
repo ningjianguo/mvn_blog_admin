@@ -103,8 +103,8 @@ public class ImageServiceImpl extends BaseDaoImpl<Image> implements IImageServic
 
 	@Override
 	public String getImageAllInfo(int pageNo, int pageSize, int folderId) {
-		List<Image> images = folderId == 0 ? getPaging(pageNo, pageSize, null)
-				: getPaging(pageNo, pageSize, "where imageFolder.imageFolderId=" + folderId);
+		List<Image> images = folderId == 0 ? getPaging(pageNo, pageSize, "order by imageId desc")
+				: getPaging(pageNo, pageSize, "where imageFolder.imageFolderId=" + folderId+" order by imageId desc");
 		Map<String, Object> maps = null;
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		JSONObject jobj = null;
@@ -161,7 +161,7 @@ public class ImageServiceImpl extends BaseDaoImpl<Image> implements IImageServic
 
 	@Override
 	public List<Image> getImageInfo(ImagePage iPage) {
-		return getPaging(iPage.getPageNo(), IMAGE_PAGE_SIZE, "where imageFolder.imageFolderId=" + iPage.getFolderId());// 设置每页显示照片数量为30张
+		return getPaging(iPage.getPageNo(), IMAGE_PAGE_SIZE, "where imageFolder.imageFolderId=" + iPage.getFolderId()+" order by imageId desc");// 设置每页显示照片数量为30张
 	}
 
 	@SuppressWarnings("unchecked")

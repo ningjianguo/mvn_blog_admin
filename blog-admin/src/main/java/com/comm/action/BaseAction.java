@@ -17,6 +17,8 @@ import com.service.IArticleService;
 import com.service.ICategoryService;
 import com.service.IFileService;
 import com.service.IImageService;
+import com.service.IMailService;
+import com.service.IUserService;
 import com.service.IVideoService;
 
 public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
@@ -32,6 +34,10 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
 	protected IFileService fileServiceImpl;
 	@Resource
 	protected IImageService imageServiceImpl;
+	@Resource
+	protected IUserService userServiceImpl;
+	@Resource
+	protected IMailService mailServiceImpl;
 	
 	protected T model;
 	protected HttpServletRequest request;

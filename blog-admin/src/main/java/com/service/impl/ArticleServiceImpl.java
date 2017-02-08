@@ -42,7 +42,7 @@ public class ArticleServiceImpl extends BaseDaoImpl<Article> implements IArticle
 	}
 	
 	@Override
-	public Boolean saveArticle(Article article) {
+	public void saveArticle(Article article) {
 		Map session = ActionContext.getContext().getSession();
 		User admin = (User)session.get("admin");
 		article.setArticleStatu(2);
@@ -60,10 +60,8 @@ public class ArticleServiceImpl extends BaseDaoImpl<Article> implements IArticle
 				}
 			}
 			save(article);
-			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
 	}
 	/**
@@ -77,7 +75,7 @@ public class ArticleServiceImpl extends BaseDaoImpl<Article> implements IArticle
 
 	@Override
 	public String getAllArticle(int pageNo, int pageSize) {
-		List<Article> articles = getPaging(pageNo,pageSize,null);
+		List<Article> articles = getPaging(pageNo,pageSize,"order by articleId desc");
 		Map<String, Object> maps = null;
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		try {

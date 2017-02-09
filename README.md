@@ -29,10 +29,10 @@
 ![](http://www.jjtcnlg.cn/file/github_display_photo/main.jpg)
 <br/>
 3)撰写博客：<br/>
-![](http://www.jjtcnlg.cn/file/github_display_photo/editeblog.jpg)
+![](http://www.jjtcnlg.cn/file/github_display_photo/editeblog_.jpg)
 <br/>
 4)相片管理：<br/>
-![](http://www.jjtcnlg.cn/file/github_display_photo/img.jpg)
+![](http://www.jjtcnlg.cn/file/github_display_photo/img_.jpg)
 <br/>
 5)视频播放：<br/>
 ![](http://www.jjtcnlg.cn/file/github_display_photo/video.jpg)

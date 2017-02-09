@@ -19,7 +19,7 @@
 5)、文件管理：发布文件、上传文件。
 <br/>
 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该项目前端效果的展示用到了开源框架：bootstrap、easyui，后台使用ssh(struts2、spring、hibernate)三大框架搭建并使用maven构建整个项目，数据库使用的是mysql。项目访问测试帐号：admin、密码：123。http://www.jjtcnlg.cn/
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该项目前端效果的展示用到了开源框架：bootstrap、easyui，后台使用ssh(struts2、spring、hibernate)三大框架搭建并使用maven构建整个项目，数据库使用的是mysql。项目访问测试帐号：admin&nbsp;密码：123。http://www.jjtcnlg.cn/
 2、项目效果展示：
 --
 1)登录界面：<br/>

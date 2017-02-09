@@ -37,7 +37,7 @@
 5)视频播放：<br/>
 ![](http://www.jjtcnlg.cn/file/github_display_photo/video.jpg)
 5)视频管理：<br/>
-![](http://www.jjtcnlg.cn/file/github_display_photo/video_manage.jpg)
+![](http://www.jjtcnlg.cn/file/github_display_photo/video_manage_.jpg)
 3、项目访问链接：
 --
 http://www.jjtcnlg.cn/

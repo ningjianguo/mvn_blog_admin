@@ -23,7 +23,7 @@
 2、项目效果展示：
 --
 1)登录界面：<br/>
-![](http://www.jjtcnlg.cn/file/github_display_photo/login.jpg)
+![](http://www.jjtcnlg.cn/file/github_display_photo/login_.jpg)
 <br/>
 2)主页面：<br/>
 ![](http://www.jjtcnlg.cn/file/github_display_photo/main.jpg)
